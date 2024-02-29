@@ -45,7 +45,7 @@ public class EnumValidator implements ConstraintValidator<Enum, String> {
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null) {
-            return false;
+            return this.annotation.isNullable();
         } else {
             value = this.annotation.ignoreCase() ? value.toUpperCase() : value;
             return enumNames.contains(value) || enumCodes.contains(value);

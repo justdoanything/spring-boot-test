@@ -23,5 +23,7 @@ public @interface Enum {
 
     boolean ignoreCase() default false;
 
+    boolean isNullable() default false;
+
     String[] excludeEnumType() default {};
 }
