@@ -1,6 +1,5 @@
 package yong.controller;
 
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +19,11 @@ public class SimpleController {
 
     @PostMapping("/post/request")
     public ResponseEntity methodPostRequest(@RequestBody RequestVO requestVO) {
+        return ResponseEntity.ok().body(requestVO);
+    }
+
+    @GetMapping("/get/request")
+    public ResponseEntity methodGetRequest(RequestVO requestVO) {
         return ResponseEntity.ok().body(requestVO);
     }
 

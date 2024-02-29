@@ -2,11 +2,8 @@ package yong.valid;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.apache.commons.lang3.EnumUtils;
 import yong.annotation.Enum;
-import yong.constants.ContentsTypeCode;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

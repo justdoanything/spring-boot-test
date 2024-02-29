@@ -2,7 +2,6 @@ package yong.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import yong.constants.ContentsTypeCode;
 import yong.valid.EnumValidator;
 
 import java.lang.annotation.ElementType;
