@@ -3,7 +3,6 @@ package yong.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import yong.annotation.Enum;
 import yong.constants.ContentsTypeCode;
 
 @Getter
