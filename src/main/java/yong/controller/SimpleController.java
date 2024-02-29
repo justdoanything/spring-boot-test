@@ -1,5 +1,6 @@
 package yong.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import yong.annotation.Enum;
 import yong.constants.ContentsTypeCode;
 import yong.model.RequestVO;
 
@@ -18,22 +20,32 @@ import yong.model.RequestVO;
 public class SimpleController {
 
     @PostMapping("/post/request")
-    public ResponseEntity methodPostRequest(@RequestBody RequestVO requestVO) {
+    public ResponseEntity methodPostRequest(@RequestBody @Valid RequestVO requestVO) {
         return ResponseEntity.ok().body(requestVO);
     }
 
     @GetMapping("/get/request")
-    public ResponseEntity methodGetRequest(RequestVO requestVO) {
+    public ResponseEntity methodGetRequest(@Valid RequestVO requestVO) {
         return ResponseEntity.ok().body(requestVO);
     }
 
-    @GetMapping("/get/request/path-variable/{contentsTypeCode}")
-    public ResponseEntity methodGetRequestPathVariable(@PathVariable ContentsTypeCode contentsTypeCode) {
+    @GetMapping("/get/request/request-param")
+    public ResponseEntity methodGetRequestRequestParam(@RequestParam
+                                                       @Valid
+                                                       @Enum(enumClass = ContentsTypeCode.class
+                                                               , message = "유효하지 않은 ContentsTypeCode 입니다."
+                                                               , excludeEnumType = {"COMMENT"}
+                                                               , ignoreCase = true) String contentsTypeCode) {
         return ResponseEntity.ok().body(contentsTypeCode);
     }
 
-    @GetMapping("/get/request/request-param")
-    public ResponseEntity methodGetRequestRequestParam(@RequestParam ContentsTypeCode contentsTypeCode) {
+    @GetMapping("/get/request/path-variable/{contentsTypeCode}")
+    public ResponseEntity methodGetRequestPathVariable(@PathVariable
+                                                       @Valid
+                                                       @Enum(enumClass = ContentsTypeCode.class
+                                                               , message = "유효하지 않은 ContentsTypeCode 입니다."
+                                                               , excludeEnumType = {"COMMENT"}
+                                                               , ignoreCase = true) String contentsTypeCode) {
         return ResponseEntity.ok().body(contentsTypeCode);
     }
 }

@@ -12,7 +12,7 @@ import yong.constants.ContentsTypeCode;
 public class RequestVO {
     @Enum(enumClass = ContentsTypeCode.class
             , message = "유효하지 않은 ContentsTypeCode 입니다."
-            , excludeEnumType = {"FEED"}
+            , excludeEnumType = {"COMMENT"}
             , ignoreCase = true)
     private String contentsTypeCode;
     private String title;

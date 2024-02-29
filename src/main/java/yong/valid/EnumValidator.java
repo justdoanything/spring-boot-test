@@ -28,20 +28,26 @@ public class EnumValidator implements ConstraintValidator<Enum, String> {
                 .collect(Collectors.toList());
 
         boolean isHaveCodeMethod = Arrays.stream(value.enumClass().getMethods()).anyMatch(method -> "code".equals(method.getName()));
-        if(isHaveCodeMethod) {
-        }else {
+
+        if (isHaveCodeMethod) {
+            enumCodes = Arrays.stream(this.annotation.enumClass().getEnumConstants()).map(constant -> {
+                try {
+                    return (String) constant.getClass().getMethod("code").invoke(constant);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }).collect(Collectors.toList());
+        } else {
             enumCodes = Collections.emptyList();
         }
     }
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-
-        value = this.annotation.ignoreCase() ? value.toUpperCase() : value;
-
         if (value == null) {
             return false;
         } else {
+            value = this.annotation.ignoreCase() ? value.toUpperCase() : value;
             return enumNames.contains(value) || enumCodes.contains(value);
         }
     }
