@@ -13,6 +13,7 @@ public class RequestVO {
     @Enum(enumClass = ContentsTypeCode.class
             , message = "유효하지 않은 ContentsTypeCode 입니다."
             , excludeEnumType = {"COMMENT"}
+            , isNullable = true
             , ignoreCase = true)
     private String contentsTypeCode;
     private String title;
