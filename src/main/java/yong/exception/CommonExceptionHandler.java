@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import yong.model.ResponseVO;
 
 @ControllerAdvice
@@ -37,6 +38,18 @@ public class CommonExceptionHandler {
         return new ResponseEntity<>(ResponseVO.builder()
                 .status("fail")
                 .message(errors.toString())
+                .build(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseVO> handleMethodArgumentNotValidException(IllegalArgumentException ex) {
+
+        String errorMessage = ex.getMessage();
+
+        return new ResponseEntity<>(ResponseVO.builder()
+                .status("fail")
+                .message(errorMessage)
                 .build(), HttpStatus.BAD_REQUEST);
     }
 }
