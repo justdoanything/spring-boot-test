@@ -1,12 +1,16 @@
 package yong.converter;
 
 import org.apache.commons.lang3.EnumUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+@Component
 public class EnumConverterFactory implements ConverterFactory<String, Enum> {
+
     @Override
     public <T extends Enum> Converter<String, T> getConverter(Class<T> enumType) {
         return new EnumConverter(getEnumType(enumType));
@@ -33,38 +37,39 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum> {
 
         @Override
         public T convert(String input) {
-            if (input.isEmpty() || input == null)
-                return null;
-
             input = input.trim().toUpperCase();
 
+            if(ObjectUtils.isEmpty(input))
+                throw new IllegalArgumentException("유효하지 않은 ContentsTypeCode 입니다.");
+
             boolean isPlainEnum = EnumUtils.isValidEnum(enumType, input);
+
             if (isPlainEnum) {
                 return (T) Enum.valueOf(this.enumType, input);
             } else {
-                boolean isEnumCode = Arrays.stream(enumType.getMethods()).anyMatch(method -> "value".equals(method.getName()));
+                boolean isEnumCode = Arrays.stream(enumType.getMethods()).anyMatch(method -> "code".equals(method.getName()));
 
                 if (isEnumCode) {
                     Enum mathcEnum = null;
                     String enumValue;
                     for (Enum constant : enumType.getEnumConstants()) {
                         try {
-                            enumValue = (String) constant.getClass().getMethod("value").invoke(constant);
+                            enumValue = (String) constant.getClass().getMethod("code").invoke(constant);
                             if (enumValue.equals(input.trim().toUpperCase())) {
                                 mathcEnum = constant;
                                 break;
                             }
                         } catch (Exception e) {
-                            throw new RuntimeException(e);
+                            throw new IllegalArgumentException("유효하지 않은 ContentsTypeCode 입니다.");
                         }
                     }
 
                     if (mathcEnum == null)
-                        throw new IllegalArgumentException("No enum constant " + enumType.getCanonicalName() + "." + input);
+                        throw new IllegalArgumentException("유효하지 않은 ContentsTypeCode 입니다.");
 
                     return (T) Enum.valueOf(enumType, mathcEnum.name());
                 } else {
-                    throw new IllegalArgumentException("No enum constant " + enumType.getCanonicalName() + "." + input);
+                    throw new IllegalArgumentException("유효하지 않은 ContentsTypeCode 입니다.");
                 }
             }
         }

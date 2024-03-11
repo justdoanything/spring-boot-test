@@ -21,40 +21,41 @@ public class EnumDeserializer extends StdDeserializer<Enum <? extends Enum>> imp
 
     @Override
     public Enum<? extends Enum> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+        Class<? extends Enum> enumType = (Class<? extends Enum>) this._valueClass;
         JsonNode jsonNode = jsonParser.getCodec().readTree(jsonParser);
         String input = jsonNode.asText().trim().toUpperCase();
-        Class<? extends Enum> enumType = (Class<? extends Enum>) this._valueClass;
 
         if(ObjectUtils.isEmpty(input))
-            return null;
+            throw new IllegalArgumentException("유효하지 않은 ContentsTypeCode 입니다.");
 
         boolean isPlainEnum = EnumUtils.isValidEnum(enumType, input);
+
         if(isPlainEnum){
             return Enum.valueOf(enumType, input);
         } else {
-            boolean isEnumCode = Arrays.stream(enumType.getMethods()).anyMatch(method -> "value".equals(method.getName()));
+            boolean isEnumCode = Arrays.stream(enumType.getMethods()).anyMatch(method -> "code".equals(method.getName()));
 
             if(isEnumCode){
                 Enum mathcEnum = null;
                 String enumValue;
                 for(Enum constant : enumType.getEnumConstants()){
                     try {
-                        enumValue = (String) constant.getClass().getMethod("value").invoke(constant);
+                        enumValue = (String) constant.getClass().getMethod("code").invoke(constant);
                         if(enumValue.equals(input.trim().toUpperCase())){
                             mathcEnum = constant;
                             break;
                         }
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        throw new IllegalArgumentException("유효하지 않은 ContentsTypeCode 입니다.");
                     }
                 }
 
                 if(mathcEnum == null)
-                    throw new IllegalArgumentException("No enum constant " + enumType.getCanonicalName() + "." +input);
+                    throw new IllegalArgumentException("유효하지 않은 ContentsTypeCode 입니다.");
 
                 return Enum.valueOf(enumType,mathcEnum.name());
             } else {
-                throw new IllegalArgumentException("No enum constant " + enumType.getCanonicalName() + "." +input);
+                throw new IllegalArgumentException("유효하지 않은 ContentsTypeCode 입니다.");
             }
         }
     }

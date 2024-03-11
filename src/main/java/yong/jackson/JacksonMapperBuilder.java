@@ -10,12 +10,14 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.stereotype.Component;
 import yong.jackson.deserializer.EnumDeserializer;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.TimeZone;
 
+@Component
 public class JacksonMapperBuilder implements Jackson2ObjectMapperBuilderCustomizer {
     @Override
     public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
