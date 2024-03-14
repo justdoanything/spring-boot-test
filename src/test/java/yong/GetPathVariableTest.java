@@ -94,7 +94,7 @@ class GetPathVariableTest {
 
         //then
         mockMvc.perform(get("/v1/get/request/path-variable/{contentsTypeCode}", contentsTypeCode))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andDo(print());
     }
 
