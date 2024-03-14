@@ -19,12 +19,12 @@ import yong.model.RequestVO;
 public class SimpleController {
 
     @PostMapping("/post/request")
-    public ResponseEntity methodPostRequest(@RequestBody RequestVO requestVO) {
+    public ResponseEntity methodPostRequest(@RequestBody @Valid RequestVO requestVO) {
         return ResponseEntity.ok().body(requestVO);
     }
 
     @GetMapping("/get/request")
-    public ResponseEntity methodGetRequest(RequestVO requestVO) {
+    public ResponseEntity methodGetRequest(@Valid RequestVO requestVO) {
         return ResponseEntity.ok().body(requestVO);
     }
 
