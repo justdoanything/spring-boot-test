@@ -52,4 +52,18 @@ public class CommonExceptionHandler {
                 .message(errorMessage)
                 .build(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ResponseVO> handleMethodArgumentNotValidException(Exception ex) {
+
+        System.out.println("Oops! Something went wrong!");
+
+        String errorMessage = ex.getMessage();
+
+        return new ResponseEntity<>(ResponseVO.builder()
+                .status("fail")
+                .message(errorMessage)
+                .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
