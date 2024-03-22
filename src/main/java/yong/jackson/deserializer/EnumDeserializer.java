@@ -24,6 +24,7 @@ public class EnumDeserializer extends StdDeserializer<Enum <? extends Enum>> imp
         Class<? extends Enum> enumType = (Class<? extends Enum>) this._valueClass;
         JsonNode jsonNode = jsonParser.getCodec().readTree(jsonParser);
         String input = jsonNode.asText().trim().toUpperCase();
+        System.out.println("Jackson input : " + input);
 
         if(ObjectUtils.isEmpty(input))
             throw new IllegalArgumentException("유효하지 않은 ContentsTypeCode 입니다.");

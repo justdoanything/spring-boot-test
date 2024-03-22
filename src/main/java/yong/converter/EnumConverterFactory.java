@@ -37,6 +37,7 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum> {
 
         @Override
         public T convert(String input) {
+            System.out.println("Converter input : " + input);
             input = input.trim().toUpperCase();
 
             if(ObjectUtils.isEmpty(input))

@@ -11,33 +11,33 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.Charset;
 import java.time.Duration;
 
-@Configuration
-public class RestTemplateConfig {
-    @Value(value = "${spring.rest-template.connection-timeout}")
-    private int connectionTimeout;
-
-    @Value(value = "${spring.rest-template.read-timeout}")
-    private int readTimeout;
-
-    @Value(value = "${spring.rest-template.max-connection}")
-    private int maxConnection;
-
-    @Value(value = "${spring.rest-template.max-per-route}")
-    private int maxPerRoute;
-
-    @Bean
-    public RestTemplate restTemplate(final RestTemplateBuilder restTemplateBuilder) {
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-        factory.setHttpClient(HttpClientBuilder.create()
-                .setMaxConnTotal(maxConnection) // 최대 오픈되는 Connection 수. (연결할 유지할 최대 숫자)
-                .setMaxConnPerRoute(maxPerRoute) // IP, PORT 쌍에 대해서 수행할 Connection 수. (특정 경로당 최대 숫자)
-                .build());
-        return restTemplateBuilder
-                .requestFactory(() -> factory)
-                .setConnectTimeout(Duration.ofMillis(connectionTimeout)) // connection=timeout
-                .setReadTimeout(Duration.ofMillis(readTimeout)) // read-timeout
-                .additionalMessageConverters(new StringHttpMessageConverter(Charset.forName("UTF-8")))
-                .defaultHeader("Content-Type", "application/json")
-                .build();
-    }
-}
+//@Configuration
+//public class RestTemplateConfig {
+//    @Value(value = "${spring.rest-template.connection-timeout}")
+//    private int connectionTimeout;
+//
+//    @Value(value = "${spring.rest-template.read-timeout}")
+//    private int readTimeout;
+//
+//    @Value(value = "${spring.rest-template.max-connection}")
+//    private int maxConnection;
+//
+//    @Value(value = "${spring.rest-template.max-per-route}")
+//    private int maxPerRoute;
+//
+//    @Bean
+//    public RestTemplate restTemplate(final RestTemplateBuilder restTemplateBuilder) {
+//        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+//        factory.setHttpClient(HttpClientBuilder.create()
+//                .setMaxConnTotal(maxConnection) // 최대 오픈되는 Connection 수. (연결할 유지할 최대 숫자)
+//                .setMaxConnPerRoute(maxPerRoute) // IP, PORT 쌍에 대해서 수행할 Connection 수. (특정 경로당 최대 숫자)
+//                .build());
+//        return restTemplateBuilder
+//                .requestFactory(() -> factory)
+//                .setConnectTimeout(Duration.ofMillis(connectionTimeout)) // connection=timeout
+//                .setReadTimeout(Duration.ofMillis(readTimeout)) // read-timeout
+//                .additionalMessageConverters(new StringHttpMessageConverter(Charset.forName("UTF-8")))
+//                .defaultHeader("Content-Type", "application/json")
+//                .build();
+//    }
+//}
